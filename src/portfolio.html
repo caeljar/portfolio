@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio — Performance Tester · Full-Stack · ML Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #060810;
+  --bg2: #0d1117;
+  --bg3: #111827;
+  --surface: #161d2e;
+  --surface2: #1e293b;
+  --border: rgba(99,179,237,0.12);
+  --border2: rgba(99,179,237,0.22);
+  --accent: #63b3ed;
+  --accent2: #90cdf4;
+  --accent3: #ebf8ff;
+  --gold: #f6e05e;
+  --gold2: #fefcbf;
+  --teal: #4fd1c7;
+  --teal2: #81e6d9;
+  --pink: #ed64a6;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #475569;
+  --radius: 12px;
+  --radius-lg: 20px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: none;
+}
+/* custom cursor */
+#cursor {
+  position: fixed; width: 12px; height: 12px;
+  background: var(--accent); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width .2s, height .2s, background .2s;
+  mix-blend-mode: screen;
+}
+#cursor-ring {
+  position: fixed; width: 36px; height: 36px;
+  border: 1px solid rgba(99,179,237,0.5); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform .08s ease-out, width .2s, height .2s;
+}
+body:hover #cursor { opacity: 1; }
+
+/* noise overlay */
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: .5;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(6,8,16,0.7);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: all .3s;
+}
+.nav-logo {
+  font-family: 'DM Mono', monospace;
+  font-size: .85rem; color: var(--accent); letter-spacing: .1em;
+  text-decoration: none;
+}
+.nav-logo span { color: var(--text2); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--text2); text-decoration: none;
+  transition: color .2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 100%;
+  height: 1px; background: var(--accent); transition: right .3s;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover::after { right: 0; }
+.nav-status {
+  display: flex; align-items: center; gap: .5rem;
+  font-family: 'DM Mono', monospace; font-size: .75rem; color: var(--text3);
+}
+.nav-status .dot {
+  width: 7px; height: 7px; border-radius: 50%; background: #48bb78;
+  box-shadow: 0 0 6px #48bb78; animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* SECTIONS */
+section { position: relative; z-index: 1; }
+
+/* HERO */
+#hero {
+  min-height: 100vh; display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 6rem 3rem 4rem;
+  gap: 2rem;
+  overflow: hidden;
+}
+.hero-content { position: relative; z-index: 2; }
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: .75rem;
+  letter-spacing: .2em; color: var(--accent); text-transform: uppercase;
+  margin-bottom: 1.5rem; opacity: 0;
+  animation: fadeUp .8s .2s ease forwards;
+}
+.hero-name {
+  font-size: clamp(3rem, 5vw, 5rem); font-weight: 800;
+  line-height: 1.05; letter-spacing: -.03em;
+  margin-bottom: 1rem;
+  opacity: 0; animation: fadeUp .8s .35s ease forwards;
+}
+.hero-name .line2 {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic; font-weight: 400;
+  background: linear-gradient(135deg, var(--accent), var(--teal));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-tagline {
+  font-size: 1rem; color: var(--text2); max-width: 440px;
+  line-height: 1.8; margin-bottom: 2.5rem;
+  opacity: 0; animation: fadeUp .8s .5s ease forwards;
+}
+.hero-tagline .tag {
+  display: inline-block;
+  background: var(--surface); border: 1px solid var(--border2);
+  padding: .15rem .6rem; border-radius: 4px;
+  font-family: 'DM Mono', monospace; font-size: .75rem;
+  color: var(--accent); margin-right: .3rem; margin-bottom: .3rem;
+}
+.hero-cta {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp .8s .65s ease forwards;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .75rem 1.75rem; border-radius: 8px;
+  font-family: 'Syne', sans-serif; font-size: .85rem; font-weight: 600;
+  letter-spacing: .05em; cursor: none;
+  text-decoration: none; transition: all .25s;
+}
+.btn-primary {
+  background: var(--accent); color: var(--bg);
+  border: 1.5px solid var(--accent);
+}
+.btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,179,237,.3); }
+.btn-ghost {
+  background: transparent; color: var(--text);
+  border: 1.5px solid var(--border2);
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+.btn svg { width: 18px; height: 18px; }
+
+.hero-3d {
+  position: relative; height: 520px;
+  opacity: 0; animation: fadeIn 1.2s .4s ease forwards;
+}
+#three-canvas { width: 100%; height: 100%; }
+.canvas-fallback {
+  position: absolute; inset: 0; display: flex;
+  align-items: center; justify-content: center;
+  color: var(--text3); font-family: 'DM Mono', monospace; font-size: .8rem;
+}
+
+.hero-scroll-hint {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: .5rem;
+  font-family: 'DM Mono', monospace; font-size: .7rem; color: var(--text3);
+  letter-spacing: .15em; text-transform: uppercase;
+  opacity: 0; animation: fadeUp .8s 1.2s ease forwards;
+}
+.scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollPulse 2s infinite; }
+@keyframes scrollPulse { 0%,100%{opacity:.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.3)} }
+
+/* grid lines bg */
+.grid-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(99,179,237,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,179,237,.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+/* glow orbs */
+.glow-orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(80px); pointer-events: none;
+}
+.orb1 { width: 400px; height: 400px; background: rgba(99,179,237,.08); top: 10%; right: -5%; }
+.orb2 { width: 300px; height: 300px; background: rgba(79,209,199,.06); bottom: 10%; left: 5%; }
+.orb3 { width: 250px; height: 250px; background: rgba(237,100,166,.05); top: 50%; right: 30%; }
+
+/* SECTION COMMON */
+.section-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 6rem 3rem;
+}
+.section-label {
+  font-family: 'DM Mono', monospace; font-size: .7rem;
+  letter-spacing: .25em; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 1rem; display: flex; align-items: center; gap: .75rem;
+}
+.section-label::before {
+  content: ''; width: 32px; height: 1px; background: var(--accent);
+}
+.section-title {
+  font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 800;
+  letter-spacing: -.03em; line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.section-title em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic; font-weight: 400;
+  color: var(--accent);
+}
+.section-sub {
+  font-size: .95rem; color: var(--text2); max-width: 540px; line-height: 1.8;
+  margin-bottom: 4rem;
+}
+
+/* EXPERIENCE */
+#experience { background: var(--bg2); }
+.timeline { position: relative; }
+.timeline::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 1px; background: linear-gradient(to bottom, var(--accent), transparent);
+}
+.timeline-item {
+  padding-left: 2.5rem; padding-bottom: 3.5rem;
+  position: relative; opacity: 0; transform: translateY(30px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.timeline-item.visible { opacity: 1; transform: translateY(0); }
+.timeline-dot {
+  position: absolute; left: -5px; top: 6px;
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg2);
+  box-shadow: 0 0 12px var(--accent);
+}
+.timeline-date {
+  font-family: 'DM Mono', monospace; font-size: .72rem;
+  color: var(--accent); letter-spacing: .12em; margin-bottom: .5rem;
+}
+.timeline-role {
+  font-size: 1.3rem; font-weight: 700; letter-spacing: -.02em;
+  margin-bottom: .25rem;
+}
+.timeline-company {
+  font-size: .85rem; color: var(--text2); margin-bottom: 1rem;
+}
+.timeline-desc {
+  font-size: .9rem; color: var(--text2); line-height: 1.8;
+  max-width: 600px;
+}
+.tech-stack {
+  display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem;
+}
+.tech-pill {
+  font-family: 'DM Mono', monospace; font-size: .7rem;
+  padding: .2rem .7rem; border-radius: 20px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text2); letter-spacing: .05em;
+}
+.tech-pill.accent { border-color: rgba(99,179,237,.4); color: var(--accent); }
+
+/* SYNVETIX — Current Work */
+#current-work {
+  background: var(--bg);
+  overflow: hidden;
+}
+.synvetix-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+  opacity: 0; transform: translateY(40px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.synvetix-card.visible { opacity: 1; transform: translateY(0); }
+.synvetix-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(99,179,237,.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+.synvetix-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 2rem; flex-wrap: wrap; margin-bottom: 2.5rem;
+}
+.synvetix-badge {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: rgba(72,187,120,.1); border: 1px solid rgba(72,187,120,.3);
+  color: #68d391; padding: .3rem .8rem; border-radius: 20px;
+  font-family: 'DM Mono', monospace; font-size: .7rem; letter-spacing: .1em;
+}
+.synvetix-badge .live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #68d391; animation: pulse-dot 2s infinite;
+}
+.synvetix-title {
+  font-size: 2.5rem; font-weight: 800; letter-spacing: -.04em;
+  background: linear-gradient(135deg, #e2e8f0 30%, var(--accent));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: .5rem;
+}
+.synvetix-sub {
+  font-size: .9rem; color: var(--text2); line-height: 1.8;
+}
+.architecture-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  background: var(--border); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; margin-top: 2rem;
+}
+.arch-node {
+  background: var(--bg2); padding: 1.5rem;
+  transition: background .3s;
+}
+.arch-node:hover { background: var(--surface2); }
+.arch-node-icon {
+  font-size: 1.5rem; margin-bottom: .75rem;
+  font-family: 'DM Mono', monospace;
+}
+.arch-node-title {
+  font-size: .9rem; font-weight: 700; margin-bottom: .4rem; letter-spacing: -.01em;
+}
+.arch-node-desc { font-size: .78rem; color: var(--text2); line-height: 1.7; }
+.flow-arrow {
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem; background: var(--bg2);
+  font-size: 1.2rem; color: var(--accent);
+}
+
+/* CERTIFICATIONS */
+#certifications { background: var(--bg2); }
+.certs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+.cert-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem;
+  transition: all .3s; cursor: none; position: relative; overflow: hidden;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .5s ease, transform .5s ease, border-color .3s, box-shadow .3s;
+}
+.cert-card.visible { opacity: 1; transform: translateY(0); }
+.cert-card:hover { border-color: var(--border2); box-shadow: 0 8px 32px rgba(99,179,237,.08); }
+.cert-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 100%; height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--teal));
+  transition: right .4s ease;
+}
+.cert-card:hover::after { right: 0; }
+.cert-issuer {
+  font-family: 'DM Mono', monospace; font-size: .68rem;
+  color: var(--accent); letter-spacing: .12em; text-transform: uppercase;
+  margin-bottom: .75rem;
+}
+.cert-name { font-size: 1rem; font-weight: 700; letter-spacing: -.01em; margin-bottom: .5rem; }
+.cert-desc { font-size: .8rem; color: var(--text2); line-height: 1.7; }
+.cert-year {
+  position: absolute; bottom: 1.25rem; right: 1.25rem;
+  font-family: 'DM Mono', monospace; font-size: .7rem; color: var(--text3);
+}
+
+/* INTERESTS */
+#interests { background: var(--bg); }
+.interests-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+.interest-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 2.5rem;
+  position: relative; overflow: hidden;
+  opacity: 0; transform: translateY(30px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.interest-card.visible { opacity: 1; transform: translateY(0); }
+.interest-card::before {
+  content: ''; position: absolute; inset: 0; opacity: 0;
+  background: radial-gradient(ellipse at top left, rgba(99,179,237,.07), transparent 70%);
+  transition: opacity .4s;
+}
+.interest-card:hover::before { opacity: 1; }
+.interest-number {
+  font-family: 'DM Mono', monospace; font-size: 3rem; font-weight: 300;
+  color: var(--surface2); line-height: 1; margin-bottom: 1.5rem;
+  letter-spacing: -.05em;
+}
+.interest-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; letter-spacing: -.02em; }
+.interest-desc { font-size: .88rem; color: var(--text2); line-height: 1.85; }
+.interest-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1.5rem; }
+.i-tag {
+  font-family: 'DM Mono', monospace; font-size: .68rem;
+  padding: .25rem .65rem; border-radius: 4px;
+  background: var(--bg2); color: var(--teal); border: 1px solid rgba(79,209,199,.2);
+}
+
+/* FOOTER */
+footer {
+  background: var(--bg2); border-top: 1px solid var(--border);
+  padding: 3rem; text-align: center;
+  font-family: 'DM Mono', monospace; font-size: .75rem; color: var(--text3);
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+.footer-grid {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1200px; margin: 0 auto; gap: 1rem; flex-wrap: wrap;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
+
+/* RESPONSIVE */
+@media(max-width: 768px) {
+  #hero { grid-template-columns: 1fr; padding: 5rem 1.5rem 3rem; }
+  .hero-3d { height: 300px; order: -1; }
+  .section-inner { padding: 4rem 1.5rem; }
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .architecture-grid { grid-template-columns: 1fr; }
+  .interests-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">/ <span>portfolio</span></a>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#current-work">Synvetix</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#interests">Interests</a></li>
+  </ul>
+  <div class="nav-status">
+    <div class="dot"></div>
+    <span>Available for collaboration</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="grid-bg"></div>
+  <div class="glow-orb orb1"></div>
+  <div class="glow-orb orb2"></div>
+  <div class="glow-orb orb3"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">// Hello, World — I'm</p>
+    <h1 class="hero-name">
+      A Developer<br>
+      <span class="line2">& Engineer.</span>
+    </h1>
+    <p class="hero-tagline">
+      <span class="tag">Performance Tester</span>
+      <span class="tag">Full-Stack Dev</span>
+      <span class="tag">ML Engineer (in progress)</span>
+      <br>
+      Leading AI certification initiatives at BBVA. Building robust backend systems, reactive frontends, and exploring the frontier of deep learning.
+    </p>
+    <div class="hero-cta">
+      <a href="https://github.com" target="_blank" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.92.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+      <a href="https://linkedin.com" target="_blank" class="btn btn-ghost">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-3d" id="hero-3d-container">
+    <canvas id="three-canvas"></canvas>
+    <div class="canvas-fallback" id="canvas-fallback" style="display:none">Loading 3D scene…</div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <p class="section-label">02 / Experience</p>
+    <h2 class="section-title">My <em>Journey</em></h2>
+    <p class="section-sub">From full-stack engineering to leading AI-powered certification platforms — a career built on curiosity and systems thinking.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">2023 — Present</p>
+        <h3 class="timeline-role">Team Lead — AI Certifications Domain</h3>
+        <p class="timeline-company">BBVA · Financial Technology</p>
+        <p class="timeline-desc">Managing a cross-functional team developing and maintaining AI-driven certification tools. Overseeing performance benchmarks, QA pipelines, and delivery of ML-integrated services at scale for one of the world's largest banks.</p>
+        <div class="tech-stack">
+          <span class="tech-pill accent">Team Management</span>
+          <span class="tech-pill accent">AI/ML</span>
+          <span class="tech-pill">Spring Boot</span>
+          <span class="tech-pill">React</span>
+          <span class="tech-pill">Performance Testing</span>
+          <span class="tech-pill">CI/CD</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">2021 — 2023</p>
+        <h3 class="timeline-role">Full-Stack Developer & Performance Engineer</h3>
+        <p class="timeline-company">BBVA · Core Banking Infrastructure</p>
+        <p class="timeline-desc">Designed and developed RESTful microservices with Java/Spring Boot, built reactive frontends in React and Angular, and led performance testing initiatives using JMeter and Gatling. Maintained Node.js BFF layers serving millions of users.</p>
+        <div class="tech-stack">
+          <span class="tech-pill accent">Java</span>
+          <span class="tech-pill accent">Spring Boot</span>
+          <span class="tech-pill">React</span>
+          <span class="tech-pill">Angular</span>
+          <span class="tech-pill">Node.js</span>
+          <span class="tech-pill">JMeter</span>
+          <span class="tech-pill">Gatling</span>
+          <span class="tech-pill">Kafka</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">2019 — 2021</p>
+        <h3 class="timeline-role">Backend Developer (Java/Spring)</h3>
+        <p class="timeline-company">Consulting & Freelance</p>
+        <p class="timeline-desc">Built enterprise-grade REST APIs and event-driven microservices. Contributed to database design and optimization. First exposure to distributed systems, message queues, and containerized deployments.</p>
+        <div class="tech-stack">
+          <span class="tech-pill">Java 11</span>
+          <span class="tech-pill">Spring MVC</span>
+          <span class="tech-pill">PostgreSQL</span>
+          <span class="tech-pill">Docker</span>
+          <span class="tech-pill">REST APIs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CURRENT WORK / SYNVETIX -->
+<section id="current-work">
+  <div class="section-inner">
+    <p class="section-label">03 / Current Project</p>
+    <h2 class="section-title">Building <em>Synvetix</em></h2>
+    <p class="section-sub">A production-grade database ingestion and synthetic streaming data generation system — engineered for scale, precision, and observability.</p>
+    <div class="synvetix-card" id="synvetix-card">
+      <div class="synvetix-header">
+        <div>
+          <div class="synvetix-badge">
+            <span class="live-dot"></span>
+            Active Development
+          </div>
+          <h3 class="synvetix-title">Synvetix</h3>
+          <p class="synvetix-sub" style="max-width:520px">A Spring Batch–powered platform for ingesting heterogeneous database sources and generating realistic streaming data payloads for downstream testing, ML training pipelines, and event simulation.</p>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:.8rem;color:var(--text2);line-height:2;text-align:right">
+          <div style="color:var(--accent)">Spring Batch</div>
+          <div>Spring Boot 3</div>
+          <div>Apache Kafka</div>
+          <div>PostgreSQL / Oracle</div>
+          <div>Docker Compose</div>
+        </div>
+      </div>
+      <div class="architecture-grid">
+        <div class="arch-node">
+          <div class="arch-node-icon" style="color:var(--accent)">⬡</div>
+          <div class="arch-node-title">DB Ingestion Layer</div>
+          <div class="arch-node-desc">Multi-source readers for Oracle, PostgreSQL and MySQL. Configurable partition strategies with fault-tolerant skip/retry logic via Spring Batch ItemReader.</div>
+        </div>
+        <div class="arch-node" style="background:rgba(99,179,237,.03)">
+          <div class="arch-node-icon" style="color:var(--teal)">⇄</div>
+          <div class="arch-node-title">Transformation Engine</div>
+          <div class="arch-node-desc">Stateless processors apply masking, synthetic generation (Faker-like engines), type coercion, and schema mapping before emission.</div>
+        </div>
+        <div class="arch-node">
+          <div class="arch-node-icon" style="color:var(--gold)">▶</div>
+          <div class="arch-node-title">Streaming Output</div>
+          <div class="arch-node-desc">Kafka producers dispatch synthetic events at configurable throughput rates. Supports Avro, JSON and Protobuf serialization for versatile consumers.</div>
+        </div>
+      </div>
+      <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border);display:flex;gap:2rem;flex-wrap:wrap">
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem">Architecture Pattern</div>
+          <div style="font-size:.9rem;color:var(--text)">Spring Batch + Event-Driven</div>
+        </div>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem">Primary Use Case</div>
+          <div style="font-size:.9rem;color:var(--text)">ML Training Data + QA Streaming</div>
+        </div>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem">Status</div>
+          <div style="font-size:.9rem;color:#68d391">Active — Core pipeline stable</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-inner">
+    <p class="section-label">04 / Certifications</p>
+    <h2 class="section-title">Always <em>Learning</em></h2>
+    <p class="section-sub">Continuous learning in performance engineering, cloud-native architecture, and machine learning fundamentals.</p>
+    <div class="certs-grid" id="certs-grid">
+      <div class="cert-card">
+        <div class="cert-issuer">AWS</div>
+        <div class="cert-name">Solutions Architect — Associate</div>
+        <div class="cert-desc">Cloud architecture patterns, high-availability design, and AWS service integration for distributed systems.</div>
+        <div class="cert-year">2023</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-issuer">Oracle</div>
+        <div class="cert-name">Java SE 11 Developer</div>
+        <div class="cert-desc">Core language mastery, functional programming with streams & lambdas, concurrency, and JVM optimization.</div>
+        <div class="cert-year">2022</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-issuer">Coursera / DeepLearning.AI</div>
+        <div class="cert-name">Deep Learning Specialization</div>
+        <div class="cert-desc">Neural networks, CNNs, RNNs, and structuring ML projects. Andrew Ng's full 5-course series.</div>
+        <div class="cert-year">2023</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-issuer">BlazeMeter / Tricentis</div>
+        <div class="cert-name">Performance Testing Professional</div>
+        <div class="cert-desc">Load testing strategy, JMeter advanced scripting, bottleneck analysis, and capacity planning.</div>
+        <div class="cert-year">2022</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-issuer">Coursera / Stanford</div>
+        <div class="cert-name">Machine Learning (Andrew Ng)</div>
+        <div class="cert-desc">Supervised & unsupervised learning, neural nets, SVM, bias/variance tradeoff, and ML system design.</div>
+        <div class="cert-year">2022</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-issuer">Linux Foundation</div>
+        <div class="cert-name">Kubernetes & Cloud Native Essentials</div>
+        <div class="cert-desc">Container orchestration, Helm charts, service meshes, observability with Prometheus and Grafana.</div>
+        <div class="cert-year">2023</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-issuer">Spring Academy / VMware</div>
+        <div class="cert-name">Spring Professional Developer</div>
+        <div class="cert-desc">Advanced Spring Boot, Spring Security, Spring Batch, reactive programming with Project Reactor.</div>
+        <div class="cert-year">2021</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-issuer">fast.ai</div>
+        <div class="cert-name">Practical Deep Learning for Coders</div>
+        <div class="cert-desc">Top-down approach to vision, NLP, and tabular models. PyTorch implementation and fine-tuning strategies.</div>
+        <div class="cert-year">2024</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERESTS -->
+<section id="interests">
+  <div class="section-inner">
+    <p class="section-label">05 / Passions</p>
+    <h2 class="section-title">What <em>Drives Me</em></h2>
+    <p class="section-sub">Beyond the daily work — the rabbit holes I fall into by choice.</p>
+    <div class="interests-grid">
+      <div class="interest-card">
+        <div class="interest-number">01</div>
+        <h3 class="interest-title">Deep Learning Research</h3>
+        <p class="interest-desc">Fascinated by generative models — particularly Variational Autoencoders (VAEs) and their latent space properties. I implement papers from scratch in PyTorch to understand them at the algorithmic level, not just the conceptual one.</p>
+        <div class="interest-tags">
+          <span class="i-tag">VAEs</span>
+          <span class="i-tag">PyTorch</span>
+          <span class="i-tag">Generative Models</span>
+          <span class="i-tag">arXiv</span>
+        </div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-number">02</div>
+        <h3 class="interest-title">Local AI Model Training</h3>
+        <p class="interest-desc">Running and fine-tuning LLMs and diffusion models locally — no cloud dependency. I experiment with LoRA/QLoRA fine-tuning, GGUF quantization, and building private inference pipelines for personal and professional tooling.</p>
+        <div class="interest-tags">
+          <span class="i-tag">Ollama</span>
+          <span class="i-tag">LoRA / QLoRA</span>
+          <span class="i-tag">llama.cpp</span>
+          <span class="i-tag">Privacy-first AI</span>
+        </div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-number">03</div>
+        <h3 class="interest-title">Daily Tasks Automation</h3>
+        <p class="interest-desc">Obsessed with eliminating repetitive friction through code. From shell scripts and Python automation to LLM-powered CLI tools and custom browser extensions — if I do it twice, I automate it.</p>
+        <div class="interest-tags">
+          <span class="i-tag">Python scripts</span>
+          <span class="i-tag">Bash</span>
+          <span class="i-tag">CLI tools</span>
+          <span class="i-tag">LLM workflows</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>Designed &amp; built with intention — 2025</div>
+    <div>
+      <a href="https://github.com" target="_blank">GitHub</a>
+      &nbsp;·&nbsp;
+      <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--text3)">
+      Performance Tester · Full-Stack · ML Engineer
+    </div>
+  </div>
+</footer>
+
+<!-- THREE.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ── CURSOR ──────────────────────────────────────────────────────────────────
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mx = -100, my = -100, rx = -100, ry = -100;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animateCursor() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  cursorRing.style.left = rx + 'px';
+  cursorRing.style.top = ry + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll('a, button, .btn').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '24px'; cursor.style.height = '24px';
+    cursor.style.background = 'var(--teal)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '12px'; cursor.style.height = '12px';
+    cursor.style.background = 'var(--accent)';
+  });
+});
+
+// ── THREE.JS 3D SCENE ───────────────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('three-canvas');
+  const container = document.getElementById('hero-3d-container');
+  if (!canvas || !THREE) { document.getElementById('canvas-fallback').style.display = 'flex'; return; }
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.set(0, 0, 5);
+
+  // Resize handler
+  function resize() {
+    const w = container.clientWidth, h = container.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+  scene.add(ambientLight);
+  const pointLight1 = new THREE.PointLight(0x63b3ed, 3, 20);
+  pointLight1.position.set(3, 3, 3);
+  scene.add(pointLight1);
+  const pointLight2 = new THREE.PointLight(0x4fd1c7, 2, 20);
+  pointLight2.position.set(-3, -2, 2);
+  scene.add(pointLight2);
+  const pointLight3 = new THREE.PointLight(0xed64a6, 1.5, 15);
+  pointLight3.position.set(0, -3, -2);
+  scene.add(pointLight3);
+
+  // Main shape — icosahedron
+  const icoGeo = new THREE.IcosahedronGeometry(1.3, 1);
+  const icoMat = new THREE.MeshStandardMaterial({
+    color: 0x0d1117,
+    metalness: 0.8,
+    roughness: 0.2,
+    wireframe: false,
+  });
+  const icoMesh = new THREE.Mesh(icoGeo, icoMat);
+  scene.add(icoMesh);
+
+  // Wireframe overlay
+  const wireMat = new THREE.MeshBasicMaterial({
+    color: 0x63b3ed, wireframe: true, transparent: true, opacity: 0.15
+  });
+  const wireMesh = new THREE.Mesh(icoGeo, wireMat);
+  wireMesh.scale.setScalar(1.01);
+  scene.add(wireMesh);
+
+  // Outer glow sphere
+  const glowGeo = new THREE.SphereGeometry(1.7, 32, 32);
+  const glowMat = new THREE.MeshBasicMaterial({
+    color: 0x63b3ed, transparent: true, opacity: 0.03, side: THREE.FrontSide
+  });
+  const glowMesh = new THREE.Mesh(glowGeo, glowMat);
+  scene.add(glowMesh);
+
+  // Orbiting ring
+  const ringGeo = new THREE.TorusGeometry(2.1, 0.008, 8, 120);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0x63b3ed, transparent: true, opacity: 0.4 });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = Math.PI / 2.8;
+  scene.add(ring);
+
+  const ring2Geo = new THREE.TorusGeometry(1.85, 0.006, 8, 120);
+  const ring2Mat = new THREE.MeshBasicMaterial({ color: 0x4fd1c7, transparent: true, opacity: 0.3 });
+  const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+  ring2.rotation.x = Math.PI / 1.6;
+  ring2.rotation.z = Math.PI / 4;
+  scene.add(ring2);
+
+  // Particles
+  const particleCount = 200;
+  const particlePositions = new Float32Array(particleCount * 3);
+  for (let i = 0; i < particleCount; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos((Math.random() * 2) - 1);
+    const r = 2.5 + Math.random() * 1.5;
+    particlePositions[i*3]   = r * Math.sin(phi) * Math.cos(theta);
+    particlePositions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+    particlePositions[i*3+2] = r * Math.cos(phi);
+  }
+  const partGeo = new THREE.BufferGeometry();
+  partGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+  const partMat = new THREE.PointsMaterial({ color: 0x63b3ed, size: 0.025, transparent: true, opacity: 0.6 });
+  const particles = new THREE.Points(partGeo, partMat);
+  scene.add(particles);
+
+  // Mouse interaction
+  let targetRotX = 0, targetRotY = 0;
+  document.addEventListener('mousemove', e => {
+    const rect = container.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    targetRotY = ((e.clientX - cx) / rect.width) * 0.8;
+    targetRotX = -((e.clientY - cy) / rect.height) * 0.8;
+  });
+
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.005;
+
+    icoMesh.rotation.x += (targetRotX - icoMesh.rotation.x) * 0.05;
+    icoMesh.rotation.y += (targetRotY + t * 0.2 - icoMesh.rotation.y) * 0.05;
+    wireMesh.rotation.x = icoMesh.rotation.x;
+    wireMesh.rotation.y = icoMesh.rotation.y;
+
+    ring.rotation.y = t * 0.4;
+    ring2.rotation.x = t * 0.3;
+    ring2.rotation.y = t * 0.2;
+
+    particles.rotation.y = t * 0.05;
+    particles.rotation.x = t * 0.02;
+
+    glowMesh.scale.setScalar(1 + Math.sin(t * 2) * 0.02);
+
+    pointLight1.position.x = Math.sin(t) * 4;
+    pointLight1.position.z = Math.cos(t) * 4;
+    pointLight2.position.x = Math.cos(t * 0.7) * 4;
+    pointLight2.position.y = Math.sin(t * 0.7) * 3;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+
+// ── SCROLL ANIMATIONS ────────────────────────────────────────────────────────
+const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.timeline-item, .synvetix-card, .cert-card, .interest-card').forEach((el, i) => {
+  el.style.transitionDelay = (i % 4) * 0.1 + 's';
+  observer.observe(el);
+});
+
+// ── NAV SCROLL EFFECT ────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  if (window.scrollY > 60) {
+    nav.style.background = 'rgba(6,8,16,0.95)';
+    nav.style.borderBottomColor = 'rgba(99,179,237,0.18)';
+  } else {
+    nav.style.background = 'rgba(6,8,16,0.7)';
+    nav.style.borderBottomColor = 'rgba(99,179,237,0.12)';
+  }
+});
+</script>
+</body>
+</html>
