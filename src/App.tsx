@@ -4,9 +4,9 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 import Nav from './components/layouts/Nav'
-import HeroSection from './pages/landing/components/sections/hero/HeroSection'
+import HeroSection from './pages/landing/sections/hero/HeroSection'
 import Footer from './components/layouts/Footer'
-import Hero3DCanvas from './pages/landing/components/sections/hero/Hero3DCanvas'
+import Hero3DCanvas from './pages/landing/sections/hero/Hero3DCanvas'
 
 function App() {
   const [count, setCount] = useState(0)

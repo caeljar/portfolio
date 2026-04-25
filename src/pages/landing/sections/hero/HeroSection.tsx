@@ -1,6 +1,8 @@
 import { motion } from "motion/react";
 import HeroCanvas3D from "./HeroCanvas3D";
 import Hero3DCanvas from "./Hero3DCanvas";
+import Button from "../../../../components/ui/Button";
+import HeroLabel from "./HeroLabel";
 
 /* ── SVG icons ───────────────────────────────────────────────────────────── */
 const GitHubIcon = () => (
@@ -235,36 +237,39 @@ function HeroSection2() {
 
 export default function HeroSection() {
     return (
-        <>
+        <section className="hero-section">
             <Hero3DCanvas />
-            <section className="absolute inset-0 z-10 text-white flex items-center pointer-events-none">
-                <div className="flex flex-col items-start justify-center px-10 w-1/2 gap-2">
-                    <span>// Hello, World - I'm</span>
-                    <div>A Developer</div>
-                    <div>
-                        <div><p>Performance Tester</p></div>
-                        <div>
-                            <p>Full-Stack Dev</p>
+            <div className="hero-content absolute inset-0 z-10 text-white flex items-center pointer-events-none">
+                <div className="flex flex-col items-start justify-center md:pl-15  w-1/2 gap-2">
+                    <div className="hero-eyebrow">
+                        <h4 className="text-primary font-sans text-xs tracking-[0.4em] mb-8">// Hello, World - I'm</h4>
+                    </div>
+                    <div className="hero-name">
+                        <h1 className="!text-6xl font-sans text-left !font-bold  !mt-0 !mb-4">
+                            <span>
+                                A Developer
+                            </span>
+                            <span className="block font-serif italic tracking-normal mt-2 pb-2 md:mt-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                                & Engineer.
+                            </span>
+                        </h1>
+                    </div>
+                    <div className="hero-taglines flex flex-col gap-y-4 mb-8">
+                        <div className="flex flex-wrap gap-x-7 gap-y-3 max-w-lg ">
+                            <HeroLabel label="Performance Tester" />
+                            <HeroLabel label="Full-Stack Dev" />
+                            <HeroLabel label="ML Engineer (in progress)" />
                         </div>
-                        <div>
-                            <p>ML Engineer (in progress)</p>
+                        <div className="max-w-md">
+                            <p className="text-foreground-muted text-left text-sm">Being part of AI certifications at BBVA. Building innovative solutions, reactive frontends, and exploring deeplearning and Specialized AI Tools</p>
                         </div>
                     </div>
-                    <div>
-                        <p>Being part of AI certifications at BBVA. Building innovative solutions, reactive frontends, and exploring deeplearning and Specialized AI Tools</p>
-                    </div>
-                    <div className="flex justify-between w-full">
-                        <div>
-                            <span></span>
-                            <h4>GitHub</h4>
-                        </div>
-                        <div>
-                            <span></span>
-                            <h4>LinkedIn</h4>
-                        </div>
+                    <div className="flex gap-5 w-full hero-cta">
+                        <Button onClick={() => { }} disabled={false} variant="primary" text="GitHub" />
+                        <Button onClick={() => { }} disabled={false} variant="secondary" text="LinkedIn" />
                     </div>
                 </div>
-            </section>
-        </>
+            </div>
+        </section>
     )
 }
