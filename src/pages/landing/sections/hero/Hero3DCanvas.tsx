@@ -1,9 +1,9 @@
 import { Canvas, useFrame } from "@react-three/fiber"
-import { Edges, Grid, Sparkles, useHelper } from "@react-three/drei"
+import { Edges, Grid, Html, Sparkles, useHelper } from "@react-three/drei"
 import { useMemo, useRef } from "react"
 import { DirectionalLightHelper } from "three"
 import * as THREE from 'three'
-
+import { motion } from "framer-motion";
 /* 
 Mesh
 Figure
@@ -81,105 +81,91 @@ function RingMesh({ numAtoms }: RingMeshProps) {
     )
 }
 
-
-function Scene() {
+function SceneGeometry() {
     const lightRef = useRef<THREE.DirectionalLight>(null);
     const meshRef = useRef<THREE.Mesh>(null);
-    // Now useHelper works because Scene is inside the Canvas!
-
-    // useHelper(lightRef, THREE.DirectionalLightHelper, 1, "hotpink");
     useFrame((state, delta) => {
         if (meshRef.current) {
-            // 1. Get the mouse coordinates and multiply by a negative number to invert.
-            // Mouse X controls Rotation Y-left/right. Mouse Y controls Rotation X-up/down.
             const targetRotationX = state.pointer.y * 1;
             const targetRotationY = state.pointer.x * -1;
-
-            // 2. Smoothly interpolate (lerp) from the current rotation to the target rotation.
-            // The 0.1 determines the speed/smoothness of the easing.
             meshRef.current.rotation.x = THREE.MathUtils.lerp(meshRef.current.rotation.x, targetRotationX, 0.1);
             meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, targetRotationY, 0.1);
         }
 
-
         if (lightRef.current && meshRef.current) {
-            // state.clock.elapsedTime gives us a constantly increasing number
             lightRef.current.target = meshRef.current;
-
             const time = state.clock.elapsedTime;
-
-            // Orbit radius of 3. Multipliers control the speed.
             lightRef.current.position.x = Math.sin(time * 0.2) * 3;
             lightRef.current.position.z = Math.cos(time * 0.2) * 3;
-
-            // You can keep Y static, or animate it too to make it go up and down
-            lightRef.current.position.y = 0//Math.sin(time) * 0;
+            lightRef.current.position.y = 0;
         }
+
     });
 
     return (
-        <>
-            <Grid
-                position={[0, -1, 0]}
-                rotation={[Math.PI * 2, 0, 0]}
-                args={[30, 30]}           // Overall size of the grid surface
-                cellSize={0.5}            // Size of the small squares
-                cellColor="#4A6984"       // Color of the small lines (matching your wireframe)
-                cellThickness={0.7}
-                sectionSize={2.5}         // Size of the larger overarching squares
-                sectionColor="#5CE1FF"    // Color of the large lines (matching your glowing sparkles)
-                sectionThickness={0}
-                fadeDistance={15}         // How far out it goes before completely fading to black
-                fadeStrength={1}
-            />
-            <color attach="background" args={["#0A0D14"]} />
-            <Sparkles
-                count={150}
-                scale={12}
-                size={3}
-                speed={0.4}
-                opacity={0.3}
-                color="#5CE1FF"
-            />
-            <group position={[3, 0, 1]}>
-                <mesh position={[0, 0, -3]} scale={2.6}>
-                    <circleGeometry args={[1, 64]} />
-                    <meshBasicMaterial
-                        color="#141E2D"
-                        transparent={true}
-                        opacity={0.8}
-                        depthWrite={false}
-                    />
-                </mesh>
-                <mesh
-                    ref={meshRef}
-                >
-                    <octahedronGeometry args={[1.3, 6]} />
-                    <meshStandardMaterial color="#0A0D14" flatShading={true} roughness={0.9} />
-                    <Edges color={'#4A6984'} scale={1} lineWidth={1} threshold={0} />
-                </mesh>
-
-                <RingMesh numAtoms={4} />
-                <RingMesh numAtoms={4} />
-                <ambientLight intensity={4} />
-                <directionalLight
-                    intensity={50}
-                    ref={lightRef}
-                    color="#ffffff"
+        <group position={[3, 0, 1]}>
+            <mesh position={[2.2, 0, -3]} scale={2.6}>
+                <circleGeometry args={[1.2, 64]} />
+                <meshBasicMaterial
+                    color="#141E2D"
+                    transparent={true}
+                    opacity={0.6}
+                    depthWrite={false}
                 />
-            </group>
-        </>
-    );
+            </mesh>
+            <mesh ref={meshRef}>
+                <octahedronGeometry args={[1.3, 6]} />
+                <meshStandardMaterial color="#0A0D14" flatShading={true} roughness={0.9} />
+                <Edges color={'#4A6984'} scale={1} lineWidth={1} threshold={0} />
+            </mesh>
+
+            <RingMesh numAtoms={4} />
+            <RingMesh numAtoms={4} />
+            <ambientLight intensity={4} />
+            <directionalLight
+                intensity={50}
+                ref={lightRef}
+                color="#ffffff"
+            />
+        </group>
+    )
 }
 
 function Hero3DCanvas() {
     return (
-        <div className="h-screen w-dvw">
+        <div className="absolute inset-0 h-screen w-full z-0">
+
             <Canvas camera={{ position: [0, 0, 6] }}>
-                <Scene />
+
+                {/* 1. BACKGROUND ELEMENTS */}
+                <color attach="background" args={["#0A0D14"]} />
+
+                {/* Pushed the grid to Z: -8 and made it much larger (60x60) so it acts as a deep wall */}
+                <Grid
+                    position={[0, 0, -8]}
+                    rotation={[Math.PI / 2, 0, 0]}
+                    args={[60, 60]}
+                    cellSize={0.7}
+                    cellColor="#4A6984"
+                    cellThickness={0.8}
+                    sectionSize={0}
+                    sectionColor="#5CE1FF"
+                    sectionThickness={0}
+                    fadeDistance={20}
+                    fadeStrength={1}
+                />
+                <Sparkles
+                    count={150}
+                    scale={20}
+                    size={10}
+                    speed={0.4}
+                    opacity={0.3}
+                    color="#5CE1FF"
+                />
+                <SceneGeometry />
+
             </Canvas>
         </div>
     );
 }
-
 export default Hero3DCanvas;

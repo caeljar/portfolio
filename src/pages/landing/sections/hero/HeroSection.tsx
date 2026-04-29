@@ -1,8 +1,9 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import HeroCanvas3D from "./HeroCanvas3D";
 import Hero3DCanvas from "./Hero3DCanvas";
 import Button from "../../../../components/ui/Button";
 import HeroLabel from "./HeroLabel";
+import { FADE_UP_ANIM } from "../../../../utils/animations";
 
 /* ── SVG icons ───────────────────────────────────────────────────────────── */
 const GitHubIcon = () => (
@@ -17,234 +18,25 @@ const LinkedInIcon = () => (
     </svg>
 );
 
-/* ── Animation variants ──────────────────────────────────────────────────── */
-const FADE_UP = (delay = 0) => ({
-    initial: { opacity: 0, y: 24 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, delay, ease: "easeOut" },
-});
-
-const FADE_IN = (delay = 0) => ({
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    transition: { duration: 1.2, delay, ease: "easeOut" },
-});
-
-/* ── Inline tag chip ──────────────────────────────────────────────────────── */
-function Tag({ children }: { children: React.ReactNode }) {
-    return (
-        <span
-            className={[
-                "inline-block font-mono text-[0.75rem] text-[#63b3ed]",
-                "bg-[#161d2e] border border-[rgba(99,179,237,0.22)]",
-                "px-[0.6rem] py-[0.15rem] rounded-[4px]",
-                "mr-[0.3rem] mb-[0.3rem]",
-            ].join(" ")}
-        >
-            {children}
-        </span>
-    );
-}
-
-/* ── CTA button variants ─────────────────────────────────────────────────── */
-function PrimaryBtn({
-    href,
-    children,
-}: {
-    href: string;
-    children: React.ReactNode;
-}) {
-    return (
-        <motion.a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ y: -2, boxShadow: "0 8px 24px rgba(99,179,237,0.3)" }}
-            whileTap={{ scale: 0.97 }}
-            className={[
-                "inline-flex items-center gap-2",
-                "px-7 py-3 rounded-lg",
-                "font-[Syne] text-[0.85rem] font-semibold tracking-[0.05em]",
-                "bg-[#63b3ed] text-[#060810]",
-                "border-[1.5px] border-[#63b3ed]",
-                "transition-colors duration-200 hover:bg-[#90cdf4]",
-                "cursor-none no-underline",
-            ].join(" ")}
-        >
-            {children}
-        </motion.a>
-    );
-}
-
-function GhostBtn({
-    href,
-    children,
-}: {
-    href: string;
-    children: React.ReactNode;
-}) {
-    return (
-        <motion.a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ y: -2, borderColor: "#63b3ed", color: "#63b3ed" }}
-            whileTap={{ scale: 0.97 }}
-            className={[
-                "inline-flex items-center gap-2",
-                "px-7 py-3 rounded-lg",
-                "font-[Syne] text-[0.85rem] font-semibold tracking-[0.05em]",
-                "bg-transparent text-[#e2e8f0]",
-                "border-[1.5px] border-[rgba(99,179,237,0.22)]",
-                "transition-all duration-200",
-                "cursor-none no-underline",
-            ].join(" ")}
-        >
-            {children}
-        </motion.a>
-    );
-}
-
-/* ── Main component ──────────────────────────────────────────────────────── */
-function HeroSection2() {
-    return (
-        <section
-            id="hero"
-            className="relative z-[1] min-h-screen grid grid-cols-1 md:grid-cols-2 items-center gap-8 px-6 md:px-12 pt-24 pb-16 overflow-hidden"
-        >
-            {/* ── Background: grid lines ── */}
-            <div
-                aria-hidden
-                className="absolute inset-0 z-0 pointer-events-none"
-                style={{
-                    backgroundImage:
-                        "linear-gradient(rgba(99,179,237,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,179,237,.04) 1px, transparent 1px)",
-                    backgroundSize: "64px 64px",
-                    maskImage: "radial-gradient(ellipse at center, black 30%, transparent 80%)",
-                }}
-            />
-
-            {/* ── Background: glow orbs ── */}
-            <div
-                aria-hidden
-                className="absolute top-[10%] right-[-5%] w-[400px] h-[400px] rounded-full pointer-events-none z-0"
-                style={{ background: "rgba(99,179,237,.08)", filter: "blur(80px)" }}
-            />
-            <div
-                aria-hidden
-                className="absolute bottom-[10%] left-[5%] w-[300px] h-[300px] rounded-full pointer-events-none z-0"
-                style={{ background: "rgba(79,209,199,.06)", filter: "blur(80px)" }}
-            />
-            <div
-                aria-hidden
-                className="absolute top-[50%] right-[30%] w-[250px] h-[250px] rounded-full pointer-events-none z-0"
-                style={{ background: "rgba(237,100,166,.05)", filter: "blur(80px)" }}
-            />
-
-            {/* ── Hero content (left column) ── */}
-            <div className="relative z-[2]">
-                {/* Eyebrow */}
-                <motion.p
-                    {...FADE_UP(0.2)}
-                    className="font-mono text-[0.75rem] tracking-[0.2em] uppercase text-[#63b3ed] mb-6"
-                >
-          // Hello, World — I&apos;m
-                </motion.p>
-
-                {/* Name */}
-                <motion.h1
-                    {...FADE_UP(0.35)}
-                    className="text-[clamp(3rem,5vw,5rem)] font-extrabold leading-[1.05] tracking-[-0.03em] mb-4"
-                >
-                    A Developer
-                    <br />
-                    {/* Italic serif gradient line */}
-                    <span
-                        className="font-[Instrument_Serif] italic font-normal"
-                        style={{
-                            background: "linear-gradient(135deg, #63b3ed, #4fd1c7)",
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                        }}
-                    >
-                        &amp; Engineer.
-                    </span>
-                </motion.h1>
-
-                {/* Tagline + role chips */}
-                <motion.p
-                    {...FADE_UP(0.5)}
-                    className="text-[1rem] text-[#94a3b8] max-w-[440px] leading-[1.8] mb-10"
-                >
-                    <Tag>Performance Tester</Tag>
-                    <Tag>Full-Stack Dev</Tag>
-                    <Tag>ML Engineer (in progress)</Tag>
-                    <br />
-                    Leading AI certification initiatives at BBVA. Building robust backend
-                    systems, reactive frontends, and exploring the frontier of deep learning.
-                </motion.p>
-
-                {/* CTA buttons */}
-                <motion.div {...FADE_UP(0.65)} className="flex flex-wrap gap-4">
-                    <PrimaryBtn href="https://github.com">
-                        <GitHubIcon />
-                        GitHub
-                    </PrimaryBtn>
-                    <GhostBtn href="https://linkedin.com">
-                        <LinkedInIcon />
-                        LinkedIn
-                    </GhostBtn>
-                </motion.div>
-            </div>
-
-            {/* ── 3D canvas (right column) ── */}
-            <motion.div
-                {...FADE_IN(0.4)}
-                className="relative h-[300px] md:h-[520px] order-first md:order-none"
-            >
-                <HeroCanvas3D />
-            </motion.div>
-
-            {/* ── Scroll hint ── */}
-            <motion.div
-                {...FADE_UP(1.2)}
-                className={[
-                    "absolute bottom-8 left-1/2 -translate-x-1/2",
-                    "flex flex-col items-center gap-2",
-                    "font-mono text-[0.7rem] tracking-[0.15em] uppercase text-[#475569]",
-                ].join(" ")}
-            >
-                <span>Scroll</span>
-                <span
-                    className="w-px h-10"
-                    style={{
-                        background: "linear-gradient(to bottom, #63b3ed, transparent)",
-                        animation: "scrollPulse 2s infinite",
-                    }}
-                />
-            </motion.div>
-
-            {/* ── Keyframes ── */}
-            <style>{`
-        @keyframes scrollPulse {
-          0%, 100% { opacity: 0.3; transform: scaleY(1);   }
-          50%       { opacity: 1;   transform: scaleY(1.3); }
-        }
-      `}</style>
-        </section>
-    );
-}
-
 export default function HeroSection() {
     return (
-        <section className="hero-section">
+        <section className="hero-section h-screen">
             <Hero3DCanvas />
-            <div className="hero-content absolute inset-0 z-10 text-white flex items-center pointer-events-none">
-                <div className="flex flex-col items-start justify-center md:pl-15  w-1/2 gap-2">
-                    <div className="hero-eyebrow">
-                        <h4 className="text-primary font-sans text-xs tracking-[0.4em] mb-8">// Hello, World - I'm</h4>
-                    </div>
-                    <div className="hero-name">
+            <div className="hero-overview absolute inset-0 z-10 text-white flex items-center pointer-events-none">
+                <motion.div
+                    {...FADE_UP_ANIM(0.4)}
+                    className="absolute hero-background h-full flex items-center w-full md:w-[70%] 
+                    bg-[radial-gradient(circle_at_left,_var(--color-background)40%,_transparent_80%)]"
+                > </motion.div>
+                <div className="hero-content flex flex-col items-start justify-center md:pl-15 w-1/2 gap-2 z-20">
+                    <motion.div
+                        {...FADE_UP_ANIM(0.5)}
+                        className="hero-eyebrow">
+                        <h4 className="code-text mb-8">// Hello, World - I'm Cesar</h4>
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.6)}
+                        className="hero-name">
                         <h1 className="!text-6xl font-sans text-left !font-bold  !mt-0 !mb-4">
                             <span>
                                 A Developer
@@ -253,8 +45,10 @@ export default function HeroSection() {
                                 & Engineer.
                             </span>
                         </h1>
-                    </div>
-                    <div className="hero-taglines flex flex-col gap-y-4 mb-8">
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.7)}
+                        className="hero-taglines flex flex-col gap-y-4 mb-8">
                         <div className="flex flex-wrap gap-x-7 gap-y-3 max-w-lg ">
                             <HeroLabel label="Performance Tester" />
                             <HeroLabel label="Full-Stack Dev" />
@@ -263,13 +57,16 @@ export default function HeroSection() {
                         <div className="max-w-md">
                             <p className="text-foreground-muted text-left text-sm">Being part of AI certifications at BBVA. Building innovative solutions, reactive frontends, and exploring deeplearning and Specialized AI Tools</p>
                         </div>
-                    </div>
-                    <div className="flex gap-5 w-full hero-cta">
-                        <Button onClick={() => { }} disabled={false} variant="primary" text="GitHub" />
-                        <Button onClick={() => { }} disabled={false} variant="secondary" text="LinkedIn" />
-                    </div>
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.8)}
+                        className="flex gap-8 w-full hero-cta">
+                        <Button onClick={() => { }} disabled={false} variant="primary" text="GitHub" icon={GitHubIcon()} />
+                        <Button onClick={() => { }} disabled={false} variant="secondary" text="LinkedIn" icon={LinkedInIcon()} />
+                    </motion.div>
                 </div>
+
             </div>
-        </section>
+        </section >
     )
 }

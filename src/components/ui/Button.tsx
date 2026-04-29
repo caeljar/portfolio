@@ -1,6 +1,8 @@
 
+import type { ReactElement } from 'react';
+
 interface ButtonProps {
-    icon?: string;
+    icon?: ReactElement;
     text?: string;
     onClick: () => void;
     disabled?: boolean;
