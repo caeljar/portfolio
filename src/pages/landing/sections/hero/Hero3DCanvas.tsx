@@ -1,7 +1,6 @@
 import { Canvas, useFrame } from "@react-three/fiber"
 import { Edges, Grid, Html, Sparkles, useHelper } from "@react-three/drei"
 import { useMemo, useRef } from "react"
-import { DirectionalLightHelper } from "three"
 import * as THREE from 'three'
 import { motion } from "framer-motion";
 /* 

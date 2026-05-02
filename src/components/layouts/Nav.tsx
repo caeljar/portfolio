@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { easeInOut, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 const NAV_LINKS = [
     { label: "Experience", href: "#experience" },

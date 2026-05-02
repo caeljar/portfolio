@@ -1,5 +1,3 @@
-import { string } from "three/tsl";
-
 interface SkillProp {
     title: string,
     relevant: boolean
