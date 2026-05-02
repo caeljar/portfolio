@@ -20,9 +20,9 @@ const LinkedInIcon = () => (
 
 export default function HeroSection() {
     return (
-        <section className="hero-section h-screen">
+        <section className="hero-section min-h-screen">
             <Hero3DCanvas />
-            <div className="hero-overview absolute inset-0 z-10 text-white flex items-center pointer-events-none">
+            <div className="hero-overview absolute inset-0 z-1 text-white flex items-center pointer-events-none">
                 <motion.div
                     {...FADE_UP_ANIM(0.4)}
                     className="absolute hero-background h-full flex items-center w-full md:w-[70%] 
@@ -67,6 +67,29 @@ export default function HeroSection() {
                 </div>
 
             </div>
+            <motion.div
+                {...FADE_UP_ANIM(0.9)}
+                className="absolute bottom-0 gap-2 left-1/2 -translate-x-1/2 z-2 flex flex-col items-center">
+                <span className="text-[0.6rem] font-sans text-foreground-muted tracking-widest">SCROLL</span>
+                <div className="h-10 justify-center">
+                    <motion.span
+                        initial={{ opacity: 0.3, scaleY: 0.8 }}
+                        animate={{ opacity: 1, scaleY: 1 }}
+                        transition={{
+                            duration: 1,
+                            ease: "easeInOut",
+                            repeat: Infinity,
+                            repeatType: "reverse"
+                        }}
+                        className="
+                block w-[0.075rem] 
+                h-full /* 2. Inherit the full 2.5rem height of the parent */
+                origin-bottom /* 3. Force it to scale downwards from the top, instead of from the center */
+                bg-gradient-to-b from-primary/90 to-secondary/10
+            "
+                    />
+                </div>
+            </motion.div>
         </section >
     )
 }

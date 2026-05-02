@@ -115,6 +115,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+
   @media (max-width: 1024px) {
     font-size: 16px;
   }
@@ -130,7 +131,6 @@
 #root {
   max-width: 100%;
   margin: 0 auto;
-  text-align: center;
   border-inline: 1px solid var(--border);
   min-height: 100svh;
   display: flex;
@@ -203,4 +203,8 @@ code {
   background: var(--code-bg);
   border: 1px solid var(--border);
   /* Added a subtle border to match your theme */
+}
+
+span {
+  text-align: left;
 }

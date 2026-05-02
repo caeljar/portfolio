@@ -9,6 +9,7 @@ import Footer from './components/layouts/Footer'
 import Hero3DCanvas from './pages/landing/sections/hero/Hero3DCanvas'
 import CustomCursor from './components/global/CustomCursor'
 import ExperienceSection from './pages/landing/sections/experience/ExperienceSection'
+import CourseSection from './pages/landing/sections/courses/CourseSection'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -22,6 +23,8 @@ function App() {
       <HeroSection />
       {/** Experience Section **/}
       <ExperienceSection />
+      {/** Course Section **/}
+      <CourseSection />
 
     </>
   )
