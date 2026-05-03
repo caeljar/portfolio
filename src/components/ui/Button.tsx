@@ -10,7 +10,9 @@ interface ButtonProps {
 }
 
 function Button({ icon, text, onClick, disabled = false, variant = 'primary' }: ButtonProps) {
-    const baseClasses: string = "flex items-center gap-2 px-6 py-3 justify-center rounded-md text-xs border-1 font-semibold cursor-pointer pointer-events-auto transition-all duration-400 ease-in-out";
+    const baseClasses: string = `flex items-center gap-1 px-3 py-2 justify-center rounded-md text-xs border-1 font-semibold cursor-pointer pointer-events-auto transition-all duration-400 ease-in-out
+    md:gap-2 md:px-6 md:py-3
+    `;
     let config: string[] = []
     if (variant === 'primary') {
         config = [
