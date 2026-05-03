@@ -20,47 +20,48 @@ const LinkedInIcon = () => (
 
 export default function HeroSection() {
     return (
-        <section className="hero-section min-h-screen">
+        <section className="hero-section min-h-dvh md:min-h-screen">
             <Hero3DCanvas />
-            <div className="hero-overview absolute inset-0 z-1 text-white flex items-center pointer-events-none">
+            <div className="hero-overview absolute inset-0 z-1 text-white flex items-start md:items-center pointer-events-none">
                 <motion.div
                     {...FADE_UP_ANIM(0.4)}
                     className="absolute hero-background h-full flex items-center w-full md:w-[70%] 
-                    bg-[radial-gradient(circle_at_left,_var(--color-background)40%,_transparent_80%)]"
+                    bg-[radial-gradient(circle_at_bottom,_var(--color-background)5%,_transparent_100%)]
+                    md:bg-[radial-gradient(circle_at_left,_var(--color-background)40%,_transparent_80%)]"
                 > </motion.div>
-                <div className="hero-content flex flex-col items-start justify-center md:pl-15 w-1/2 gap-2 z-20">
+                <div className="hero-content flex flex-col items-center md:items-start mt-40 md:mt-0 mx-auto md:mx-0 justify-center gap-2 z-20 w-3/4 md:pl-15 md:w-1/2 ">
                     <motion.div
                         {...FADE_UP_ANIM(0.5)}
                         className="hero-eyebrow">
-                        <h4 className="code-text mb-8">// Hello, World - I'm Cesar</h4>
+                        <h4 className="code-text mb-8 text-center md:text-left">// Hello, World - I'm Cesar</h4>
                     </motion.div>
                     <motion.div
                         {...FADE_UP_ANIM(0.6)}
                         className="hero-name">
-                        <h1 className="!text-6xl font-sans text-left !font-bold  !mt-0 !mb-4">
-                            <span>
+                        <h1 className="!text-4xl md:!text-6xl font-sans md:text-left !font-bold  !mt-0 !mb-4">
+                            <span className="!text-center md:text-left">
                                 A Developer
                             </span>
-                            <span className="block font-serif italic tracking-normal mt-2 pb-2 md:mt-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            <span className="!text-center md:text-left block font-serif italic tracking-normal mt-2 pb-2 md:mt-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                                 & Engineer.
                             </span>
                         </h1>
                     </motion.div>
                     <motion.div
                         {...FADE_UP_ANIM(0.7)}
-                        className="hero-taglines flex flex-col gap-y-4 mb-8">
-                        <div className="flex flex-wrap gap-x-7 gap-y-3 max-w-lg ">
+                        className="hero-taglines flex flex-col gap-y-4 mb-2 md:mb-8">
+                        <div className="flex flex-wrap gap-x-7 gap-y-3 max-w-lg justify-center md:justify-normal">
                             <HeroLabel label="Performance Tester" />
                             <HeroLabel label="Full-Stack Dev" />
                             <HeroLabel label="ML Engineer (in progress)" />
                         </div>
                         <div className="max-w-md">
-                            <p className="text-foreground-muted text-left text-sm">Being part of AI certifications at BBVA. Building innovative solutions, reactive frontends, and exploring deeplearning and Specialized AI Tools</p>
+                            <p className="text-foreground-muted !text-sm !text-center md:!text-left md:!text-sm">Being part of AI certifications at BBVA. Building innovative solutions, reactive frontends, and exploring deeplearning and Specialized AI Tools</p>
                         </div>
                     </motion.div>
                     <motion.div
                         {...FADE_UP_ANIM(0.8)}
-                        className="flex gap-8 w-full hero-cta">
+                        className="hero-cta flex flex-wrap justify-between sm:justify-around md:justify-start md:flex-nowrap md:gap-8 w-full ">
                         <Button onClick={() => { }} disabled={false} variant="primary" text="GitHub" icon={GitHubIcon()} />
                         <Button onClick={() => { }} disabled={false} variant="secondary" text="LinkedIn" icon={LinkedInIcon()} />
                     </motion.div>

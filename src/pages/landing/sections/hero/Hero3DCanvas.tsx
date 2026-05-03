@@ -3,6 +3,7 @@ import { Edges, Grid, Html, Sparkles, useHelper } from "@react-three/drei"
 import { useMemo, useRef } from "react"
 import * as THREE from 'three'
 import { motion } from "framer-motion";
+import { useViewport } from "../../../../hooks/useViewport";
 /* 
 Mesh
 Figure
@@ -83,6 +84,19 @@ function RingMesh({ numAtoms }: RingMeshProps) {
 function SceneGeometry() {
     const lightRef = useRef<THREE.DirectionalLight>(null);
     const meshRef = useRef<THREE.Mesh>(null);
+
+    const { isXs, isSm, isMd, isLg, isXl } = useViewport();
+
+    const getModelPosition = (): [number, number, number] => {
+        if (isXs) return [0, 0.5, 0];       // Center it on mobile
+        if (isSm) return [0, 0.5, 0];       // Shift slightly right on tablets
+        if (isMd) return [2, 0, 1];     // Shift further right on laptops
+        if (isLg) return [3, 0, 1];        // Default desktop position
+        if (isXl) return [4, 0, 1];        // Push further right on ultra-wide screens
+
+        return [0, 0, 0]; // Fallback
+    };
+
     useFrame((state, delta) => {
         if (meshRef.current) {
             const targetRotationX = state.pointer.y * 1;
@@ -102,7 +116,7 @@ function SceneGeometry() {
     });
 
     return (
-        <group position={[3, 0, 1]}>
+        <group position={getModelPosition()}>
             <mesh position={[2.2, 0, -3]} scale={2.6}>
                 <circleGeometry args={[1.2, 64]} />
                 <meshBasicMaterial

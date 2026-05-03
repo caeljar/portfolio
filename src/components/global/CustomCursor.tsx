@@ -38,6 +38,7 @@ function CustomCursor() {
         <>
             <span ref={cursorRef}
                 className={`
+                hidden md:block
                 pointer-events-none fixed top-0 left-0 z-[9999] 
                 rounded-full
                 /* The negative translate centers the cursor exactly on the mouse point */ 
@@ -52,6 +53,7 @@ function CustomCursor() {
             <span
                 ref={ringRef}
                 className={`
+                    hidden md:block
                     pointer-events-none fixed top-0 left-0 z-[9998] 
                     rounded-full border border-primary
                     /* Add 'transform' to the transition list to create the 500ms trailing delay! */
