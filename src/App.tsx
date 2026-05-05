@@ -1,10 +1,11 @@
-import { useState } from 'react'
 import './App.css'
 import Nav from './components/layouts/Nav'
 import HeroSection from './pages/landing/sections/hero/HeroSection'
 import CustomCursor from './components/global/CustomCursor'
 import ExperienceSection from './pages/landing/sections/experience/ExperienceSection'
 import CourseSection from './pages/landing/sections/courses/CourseSection'
+import PassionSection from './pages/landing/sections/passions/PassionSection'
+import Footer from './components/layouts/Footer'
 
 function App() {
 
@@ -19,7 +20,10 @@ function App() {
       <ExperienceSection />
       {/** Course Section **/}
       <CourseSection />
-
+      {/** Passion Section **/}
+      <PassionSection />
+      {/** Footer Section **/}
+      <Footer />
     </>
   )
 }

@@ -3,8 +3,7 @@ import { motion } from "framer-motion";
 
 const NAV_LINKS = [
     { label: "Experience", href: "#experience" },
-    { label: "Synvetix", href: "#current-work" },
-    { label: "Certifications", href: "#certifications" },
+    { label: "Courses", href: "#courses" },
     { label: "Interests", href: "#interests" },
 ];
 

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { FADE_UP_ANIM } from '../../../../utils/animations';
 interface CourseCardProps {
     techName: string,
     title: string,
@@ -14,13 +15,15 @@ function CourseCard(courseCardProp: CourseCardProps) {
             initial="rest"
             whileHover="hover"
             className="
-            relative flex flex-col gap-1 w-full px-8 py-4 rounded-xl bg-surface-elevated overflow-hidden cursor-pointer transition-all duration-300 ease-out
+            relative flex flex-col gap-1 w-full px-8 py-4 rounded-xl bg-surface-elevated overflow-hidden transition-all duration-300 ease-out
             hover:shadow-primary hover:shadow hover:shadow-md
+            cursor-none
+            pointer-events-auto
             "
         >
-            <span className="text-primary text-xs">{courseCardProp.techName.toUpperCase()}</span>
-            <h4 className="text-white !font-semibold">{courseCardProp.title}</h4>
-            <p className="!text-xs !tracking-normal">{courseCardProp.description}</p>
+            <span className="text-primary !text-[0.5rem]">{courseCardProp.techName.toUpperCase()}</span>
+            <h4 className="text-white !font-semibold text-sx">{courseCardProp.title}</h4>
+            <p className="!text-[0.6rem] !tracking-normal">{courseCardProp.description}</p>
             <span className="!text-right text-xs">{courseCardProp.year}</span>
 
             <motion.div
@@ -39,7 +42,7 @@ function CourseCard(courseCardProp: CourseCardProps) {
 function CourseSection() {
 
     return (
-        <section className="experience-section min-h-screen bg-surface">
+        <section className="experience-section min-h-screen bg-surface" id='courses'>
             <div className="py-16 px-6 md:mx-auto flex flex-col gap-4 md:max-w-3/5">
 
                 <div className="flex flex-col gap-5">
@@ -56,14 +59,106 @@ function CourseSection() {
                         Continuous learning in backend engineering, architectures and machine learning fundamentals.
                     </p>
                 </div>
-                <div className="grid gap-10 grid-cols-[repeat(auto-fill,minmax(12rem,1fr))]">
-                    <CourseCard title="Solution Architect" techName="AWS" description="Cloud architecture patterns, high availability design and AWS service integration for distributed testing" year="2022" />
-                    <CourseCard title="Solution Architect" techName="AWS" description="Cloud architecture patterns, high availability design and AWS service integration for distributed testing" year="2022" />
-                    <CourseCard title="Solution Architect" techName="AWS" description="Cloud architecture patterns, high availability design and AWS service integration for distributed testing" year="2022" />
-                    <CourseCard title="Solution Architect" techName="AWS" description="Cloud architecture patterns, high availability design and AWS service integration for distributed testing" year="2022" />
-                    <CourseCard title="Solution Architect" techName="AWS" description="Cloud architecture patterns, high availability design and AWS service integration for distributed testing" year="2022" />
-                    <CourseCard title="Solution Architect" techName="AWS" description="Cloud architecture patterns, high availability design and AWS service integration for distributed testing" year="2022" />
-                    <CourseCard title="Solution Architect" techName="AWS" description="Cloud architecture patterns, high availability design and AWS service integration for distributed testing" year="2022" />
+                <div className="grid gap-10 grid-cols-[repeat(auto-fill,minmax(13rem,1fr))]">
+                    <motion.div
+                        {...FADE_UP_ANIM(0.5)}>
+                        <CourseCard
+                            title="AWS AI ML Scholarship"
+                            techName="AWS / AI"
+                            description="Advanced machine learning concepts, model training, and AI services on the AWS ecosystem."
+                            year="In Progress"
+                        />
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.5)}>
+                        <CourseCard
+                            title="Linear Algebra & Data Visualization"
+                            techName="Math / Data"
+                            description="Mathematical foundations for AI focusing on matrix operations, paired with techniques for effective visual data analytics."
+                            year="2026"
+                        />
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.5)}>
+                        <CourseCard
+                            title="Elasticsearch Engineer Training"
+                            techName="Elasticsearch"
+                            description="Performance Architecture, DSL Tuning, and Cluster Orchestration."
+                            year="2025"
+                        />
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.5)}>
+                        <CourseCard
+                            title="Oracle & SQL Specialization"
+                            techName="OracleDB / SQL"
+                            description="Comprehensive training in relational database foundations, SQL querying, and Oracle platform architecture."
+                            year="2025"
+                        />
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.5)}>
+                        <CourseCard
+                            title="Development of Managerial Abilities"
+                            techName="Leadership | Tec. M."
+                            description="Advanced team leadership strategies, conflict resolution, team business analytics, complex problem-solving, and executive communication."
+                            year="2025"
+                        />
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.5)}>
+                        <CourseCard
+                            title="Concurrent & Parallel Programming"
+                            techName="Java"
+                            description="Advanced multi-threading, concurrency control, and parallel execution models for high-performance backend systems."
+                            year="2024"
+                        />
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.5)}>
+                        <CourseCard
+                            title="Financial Analysis using Python"
+                            techName="Python"
+                            description="Applying Python for financial analysis, including data analysis, and predictive statistical methods."
+                            year="2024"
+                        />
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.5)}>
+                        <CourseCard
+                            title="Scrum Master & Product Owner"
+                            techName="Agile / Scrum"
+                            description="Acquired skills in Agile methodologies on the Scrum framework."
+                            year="2023"
+                        />
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.5)}>
+                        <CourseCard
+                            title="Jenkins CI/CD"
+                            techName="CI/CD"
+                            description="Introductions to Jenkins CI/CD pipelines for automating testing and deployments."
+                            year="2023"
+                        />
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.5)}>
+                        <CourseCard
+                            title="Kubernetes Orchestration"
+                            techName="Kubernetes"
+                            description="Understanding orchestration with K8s, including deployment, management, and scaling."
+                            year="2022"
+                        />
+                    </motion.div>
+                    <motion.div
+                        {...FADE_UP_ANIM(0.5)}>
+                        <CourseCard
+                            title="Basic Introduction to GCP"
+                            techName="GCP"
+                            description="Introduction to Google Cloud Platform services, with a focus on cloud computing infrastructure."
+                            year="2021"
+                        />
+                    </motion.div>
                 </div>
             </div>
         </section>

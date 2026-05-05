@@ -4,6 +4,7 @@ import Hero3DCanvas from "./Hero3DCanvas";
 import Button from "../../../../components/ui/Button";
 import HeroLabel from "./HeroLabel";
 import { FADE_UP_ANIM } from "../../../../utils/animations";
+import { openInNewTab } from "../../../../utils/helpers";
 
 /* ── SVG icons ───────────────────────────────────────────────────────────── */
 const GitHubIcon = () => (
@@ -62,8 +63,8 @@ export default function HeroSection() {
                     <motion.div
                         {...FADE_UP_ANIM(0.8)}
                         className="hero-cta flex flex-wrap justify-between sm:justify-around md:justify-start md:flex-nowrap md:gap-8 w-full ">
-                        <Button onClick={() => { }} disabled={false} variant="primary" text="GitHub" icon={GitHubIcon()} />
-                        <Button onClick={() => { }} disabled={false} variant="secondary" text="LinkedIn" icon={LinkedInIcon()} />
+                        <Button onClick={() => openInNewTab('https://github.com/caeljar')} disabled={false} variant="primary" text="GitHub" icon={GitHubIcon()} />
+                        <Button onClick={() => openInNewTab('https://www.linkedin.com/in/cesar-morelos/')} disabled={false} variant="secondary" text="LinkedIn" icon={LinkedInIcon()} />
                     </motion.div>
                 </div>
 
